@@ -9,8 +9,24 @@ gitSkel="symbol-skel-cpp"
 function help {
 	echo "$0 commands"
 	echo "	bootstrap - Clone here the SDK repositories."
+	echo "	sync - call scripts/sync on each project"
 }
 
+function sync {
+	echo "WARNING. branch marc-os will be pushed for all reps. Ok or CTL-C Abort."
+	read yes
+
+	echo "calling sync.sh on rpc"
+	pushd rpc > /dev/null
+		scripts/sync.sh "marc-os"
+		git push
+	popd > /dev/null
+	echo "calling sync.sh on skel"
+	pushd skel > /dev/null
+		scripts/sync.sh "marc-os"
+		git push
+	popd > /dev/null
+}
 
 function bootstrap {
 	branch=$1
@@ -33,6 +49,10 @@ shift
 
 if [[ "_$cmd" == "_bootstrap" ]]; then
 	bootstrap "$@"
+	exit 0
+fi
+if [[ "_$cmd" == "_sync" ]]; then
+	sync "$@"
 	exit 0
 fi
 
