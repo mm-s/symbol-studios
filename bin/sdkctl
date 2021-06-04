@@ -1,0 +1,29 @@
+#!/bin/bash
+
+
+gitBz="nemtech"
+gitCore="symbol-sdk-core-cpp"
+gitRpc="symbol-sdk-cpp"
+gitSkel="symbol-skel-cpp"
+
+function help {
+	echo "$0 commands"
+	echo "	bootstrap - Clone here the SDK repositories."
+}
+
+
+function bootstrap {
+	git clone $gitCore
+	git clone $gitRpc
+	git clone $gitSkel
+}
+
+cmd=$1
+
+if [[ "_$cmd" == "bootstrap" ]]; then
+	bootstrap "$@"
+fi
+
+echo "Error: Invalid command"
+help
+exit 1
