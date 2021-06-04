@@ -57,8 +57,9 @@ if [[ "_$cmd" == "_sync" ]]; then
 	exit 0
 fi
 if [[ "_$cmd" == "_test_build" ]]; then
-	pushd core/test
+	pushd core/test >/dev/null
 		bin/e2e -j 8 marc-os
+	popd > /dev/null
 	exit 0
 fi
 
