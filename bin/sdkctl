@@ -17,6 +17,10 @@ function bootstrap {
 	if [[ "_${branch}" == "_" ]]; then
 		branch="marc-os"
 	fi
+	if [[ -d $gitCore ]]; then
+		echo "Error. Workspace is not clean."
+		exit 1
+	fi
 	URL="https://github.com/$gitBz"
 	echo "git clone -b ${branch} ${URL}/$gitCore"
 	git clone -b ${branch} ${URL}/$gitCore
