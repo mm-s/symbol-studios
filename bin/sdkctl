@@ -10,6 +10,7 @@ function help {
 	echo "$0 commands"
 	echo "	bootstrap - Clone here the SDK repositories."
 	echo "	sync - call scripts/sync on each project"
+	echo "	test_build - builds marc-os branch"
 }
 
 function sync {
@@ -53,6 +54,11 @@ if [[ "_$cmd" == "_bootstrap" ]]; then
 fi
 if [[ "_$cmd" == "_sync" ]]; then
 	sync "$@"
+	exit 0
+fi
+if [[ "_$cmd" == "_test_build" ]]; then
+	pushd core/test
+		bin/e2e -j 8 marc-os
 	exit 0
 fi
 
