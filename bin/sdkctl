@@ -1,9 +1,11 @@
 #!/bin/bash
 
-gitBzSdk="https://github.com/nemtech"
+gitUser="mm-s"
+
+gitBzSdk="https://git@github.com:$gitUser/nemtech"
 gitSdk="symbol-sdk-cpp"
 
-gitBzSkel="https://github.com/mm-s"
+gitBzSkel="https://git@github.com:$gitUser/mm-s"
 gitSkel="symbol-skel-cpp"
 
 function help {
