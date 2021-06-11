@@ -1,12 +1,9 @@
 #!/bin/bash
 
-gitBzCore="https://github.com/nemtech"
-gitCore="symbol-sdk-core-cpp"
+gitBzSdk="https://github.com/nemtech"
+gitSdk="symbol-sdk-cpp"
 
-gitBzRpc="https://github.com/nemtech"
-gitRpc="symbol-sdk-cpp"
-
-gitBzSkel="file:///home/marc-os"
+gitBzSkel="https://github.com/mm-s"
 gitSkel="symbol-skel-cpp"
 
 function help {
@@ -39,13 +36,9 @@ function bootstrap {
 	if [[ "_${branch}" == "_" ]]; then
 		branch="marc-os"
 	fi
-	if [[ ! -d $gitCore ]]; then
-		echo "git clone -b ${branch} ${gitBzCore}/$gitCore"
-		git clone -b ${branch} ${gitBzCore}/$gitCore
-	fi
-	if [[ ! -d ${gitRpc}2 ]]; then
-		echo "git clone -b ${branch} ${gitBzRpc}/$gitRpc ${gitRpc}2"
-		git clone -b ${branch} ${gitBzRpc}/$gitRpc ${gitRpc}2
+	if [[ ! -d ${gitSdk} ]]; then
+		echo "git clone -b ${branch} ${gitBzSdk}/$gitSdk ${gitSdk}"
+		git clone -b ${branch} ${gitBzSdk}/$gitSdk ${gitSdk}
 	fi
 	if [[ ! -d $gitSkel ]]; then
 		echo "git clone -b ${branch} ${gitBzSkel}/$gitSkel"
@@ -54,8 +47,7 @@ function bootstrap {
 }
 
 function clean {
-	rm -rf $gitCore
-	rm -rf $gitRpc
+	rm -rf $gitSdk
 	rm -rf $gitSkel
 }
 
@@ -75,7 +67,7 @@ if [[ "_$cmd" == "_sync" ]]; then
 	exit 0
 fi
 if [[ "_$cmd" == "_test_build" ]]; then
-	pushd core/test >/dev/null
+	pushd sdk/test >/dev/null
 		bin/e2e -j 8 marc-os
 	popd > /dev/null
 	exit 0
