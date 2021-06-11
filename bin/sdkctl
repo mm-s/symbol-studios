@@ -1,15 +1,20 @@
 #!/bin/bash
 
-
-gitBz="nemtech"
+gitBzCore="https://github.com/nemtech"
 gitCore="symbol-sdk-core-cpp"
+
+gitBzRpc="https://github.com/nemtech"
 gitRpc="symbol-sdk-cpp"
+
+gitBzSkel="file:///home/marc-os"
 gitSkel="symbol-skel-cpp"
 
 function help {
 	echo "$0 commands"
+	echo "	clean - delete ganerated files."
 	echo "	bootstrap - Clone here the SDK repositories."
 	echo "	sync - call scripts/sync on each project"
+	echo "	       Cascade transmitting Find*.cmake modules. core -> rpc[FindSymbolCore.cmake] - >skel[FindSymbolCore.cmake, FindSymbolRPC.cmake]"
 	echo "	test_build - builds marc-os branch"
 }
 
@@ -34,20 +39,33 @@ function bootstrap {
 	if [[ "_${branch}" == "_" ]]; then
 		branch="marc-os"
 	fi
-	if [[ -d $gitCore ]]; then
-		echo "Error. Workspace is not clean."
-		exit 1
+	if [[ ! -d $gitCore ]]; then
+		echo "git clone -b ${branch} ${gitBzCore}/$gitCore"
+		git clone -b ${branch} ${gitBzCore}/$gitCore
 	fi
-	URL="https://github.com/$gitBz"
-	echo "git clone -b ${branch} ${URL}/$gitCore"
-	git clone -b ${branch} ${URL}/$gitCore
-	git clone -b ${branch} ${URL}/$gitRpc
-	git clone -b ${branch} ${URL}/$gitSkel
+	if [[ ! -d ${gitRpc}2 ]]; then
+		echo "git clone -b ${branch} ${gitBzRpc}/$gitRpc ${gitRpc}2"
+		git clone -b ${branch} ${gitBzRpc}/$gitRpc ${gitRpc}2
+	fi
+	if [[ ! -d $gitSkel ]]; then
+		echo "git clone -b ${branch} ${gitBzSkel}/$gitSkel"
+		git clone -b ${branch} ${gitBzSkel}/$gitSkel
+	fi
+}
+
+function clean {
+	rm -rf $gitCore
+	rm -rf $gitRpc
+	rm -rf $gitSkel
 }
 
 cmd=$1
 shift
 
+if [[ "_$cmd" == "_clean" ]]; then
+	clean "$@"
+	exit 0
+fi
 if [[ "_$cmd" == "_bootstrap" ]]; then
 	bootstrap "$@"
 	exit 0
