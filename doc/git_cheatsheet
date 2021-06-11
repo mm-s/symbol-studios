@@ -1,0 +1,4 @@
+# Remote URL with username, if push keeps asking for a user name
+
+git remote set-url origin git@github.com:mm-s/symbol-studios.git
+
